@@ -1,0 +1,34 @@
+<%- include('../layouts/header', {title: 'Index Users'}); -%>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <h1 class="display-4 text-center">First + last name of emp ID: <%= id %> </h1>
+
+            <div class="card-body">
+                <div class="alert alert-success" role="alert">
+                    Obavestenja
+                </div>
+
+                <table class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">E-mail</th>
+                        <th scope="col">Phone number</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Emp email</td>
+                            <td>Emp phone</td>
+                            <td class="text-center"><button type="button" class="btn btn-primary">Update</button></td>
+                            <td class="text-center"><button type="button" class="btn btn-secondary">Go Back</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../layouts/footer'); -%>
