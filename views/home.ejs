@@ -22,16 +22,18 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td class="align-middle">0</td>
-                        <td scope="row"><a href="#"><img src="" width="100px" height="100px"></a></td>
-                        <td class="align-middle"><a href="#">Company name</a></td>
-                        <td class="align-middle">Employee number</td>
-                        <td class="text-center align-middle"><button type="button" class="btn btn-primary">Update</button></td>
-                        <td class="text-center align-middle">
-                            Delete
-                        </td>
-                    </tr>
+                    <% companies.forEach(company => { %>
+                        <tr>
+                            <td class="align-middle">0</td>
+                            <td scope="row"><a href="#"><img src="<%= 'images/' + company.logo %>"  width="100px" height="100px"></a></td>
+                            <td class="align-middle"><a href="#"><%= company.name %></a></td>
+                            <td class="align-middle">Employee number</td>
+                            <td class="text-center align-middle"><a href="/companies/edit/<%= company.id %>" class="btn btn-primary">Update</a></td>
+                            <td class="text-center align-middle">
+                                Delete
+                            </td>
+                        </tr>
+                    <% }) %>
                     </tbody>
                 </table>
             </div>

@@ -1,16 +1,13 @@
 var express = require('express');
 var router = express.Router();
+var CompanyController = require('../controllers/CompanyController');
 
-router.get('/', function(req, res, next) {
-  res.send('respond with a company resource');
-});
+router.get('/create', CompanyController.create);
 
-router.get('/create', function(req, res, next) {
-  res.render('companies/create');
-});
+router.post('/', CompanyController.store);
 
-router.get('/edit', function(req, res, next) {
-  res.render('companies/create');
-});
+router.get('/edit/:id', CompanyController.edit);
+
+router.patch('/:id', CompanyController.edit);
 
 module.exports = router;

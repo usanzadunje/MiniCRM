@@ -1,27 +1,27 @@
-<%- include('../layouts/header', {title: 'Index Users'}); -%>
+<%- include('../layouts/header', {title: 'Edit Company'}); -%>
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div class="card">
-            <h1 class="display-4 text-center">Create new company</h1>
+            <h1 class="display-4 text-center">Edit | <%= company.name %> </h1>
 
             <div class="card-body">
                 <div class="alert alert-success" role="alert">
                     Obavestenja
                 </div>
-                <form action="#" method="POST" enctype="multipart/form-data">
+                <form action="companies/update/<%= company.id %>" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" name="name" id="name" placeholder="Your name" class="form-control">                           
+                        <input type="text" name="name" id="name" value="<%= company.name %>" class="form-control">                           
                     </div>
 
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" name="email" id="email" placeholder="Your e-mail" class="form-control"> 
+                        <input type="email" name="email" id="email" value="<%= company.email %>" class="form-control"> 
                     </div>
 
                     <div class="form-group">
                         <label for="website">Website</label>
-                        <input type="website" name="website" id="website" placeholder="Your website" class="form-control">                
+                        <input type="website" name="website" id="website" value="<%= company.website %>" class="form-control">                
                     </div>
 
                     <div class="form-group">
