@@ -11,11 +11,7 @@
                         <label for="email" class="col-md-4 col-form-label text-md-right">E-mail Address</label>
 
                         <div class="col-md-6">
-                            <input id="email" type="email" class="form-control" name="email" required autocomplete="email" autofocus>
-
-                            <span class="invalid-feedback" role="alert">
-                                <strong>Error za email</strong>
-                            </span>
+                            <input id="email" type="email" class="form-control" name="email" value="<%= flash.email ? flash.email : '' %>" required autocomplete="email" autofocus>
                         </div>
                     </div>
 
@@ -24,10 +20,6 @@
 
                         <div class="col-md-6">
                             <input id="password" type="password" class="form-control" name="password" required autocomplete="current-password">
-
-                            <span class="invalid-feedback" role="alert">
-                                <strong>Error za pw</strong>
-                            </span>
                         </div>
                     </div>
 

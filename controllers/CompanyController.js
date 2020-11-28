@@ -1,16 +1,28 @@
 const config = require('../config')
 
+const conn = config.conn;
+
 module.exports = {
 
     index: function(req, res, next) {   
         let query = `SELECT * FROM companies`;
 
-        config.conn.query(query, (err, result) => {
+        conn.query(query, (err, result) => {
             if(err) throw err;
             
-            return res.render('home', {
-                companies: result
-            }); 
+            if(res.locals.user){
+                return res.render('home', {
+                    companies: result
+                }); 
+            }
+            else{
+                res.render('error', {
+                  message: 'UNAUTHORIZED',
+                  error: {
+                    status: 401,
+                  }
+                })
+            }
         });        
     },
 
@@ -25,7 +37,7 @@ module.exports = {
     edit: function(req, res, next) {  
         let query = `SELECT * FROM companies WHERE id = ${req.params.id} LIMIT 1`;
 
-        config.conn.query(query, (err, result) => {
+        conn.query(query, (err, result) => {
             if(err) throw err;
 
             return res.render('companies/edit', {
@@ -37,7 +49,7 @@ module.exports = {
     update: function(req, res, next) {   
         let query = `SELECT * FROM companies`;
 
-        config.conn.query(query, (err, result) => {
+        conn.query(query, (err, result) => {
             if(err) throw err;
             
             return res.render('home', {

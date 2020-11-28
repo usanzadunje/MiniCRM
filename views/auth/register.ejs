@@ -11,11 +11,7 @@
                         <label for="name" class="col-md-4 col-form-label text-md-right">Name</label>
 
                         <div class="col-md-6">
-                            <input id="name" type="text" class="form-control" name="name" required autocomplete="name" autofocus>
-
-                            <span class="invalid-feedback" role="alert">
-                                <strong>Error za name</strong>
-                            </span>
+                            <input id="name" type="text" class="form-control" name="name" value="<%= flash.name ? flash.name : '' %>" required autocomplete="name" autofocus>
                         </div>
                     </div>
 
@@ -23,11 +19,7 @@
                         <label for="email" class="col-md-4 col-form-label text-md-right">E-mail Address</label>
 
                         <div class="col-md-6">
-                            <input id="email" type="email" class="form-control" name="email" required autocomplete="email">
-
-                            <span class="invalid-feedback" role="alert">
-                                <strong>Error za email</strong>
-                            </span>
+                            <input id="email" type="email" class="form-control" name="email" value="<%= flash.email ? flash.email : '' %>" required autocomplete="email">
                         </div>
                     </div>
 
@@ -35,11 +27,7 @@
                         <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
 
                         <div class="col-md-6">
-                            <input id="password" type="password" class="form-control" name="password" required autocomplete="new-password">
-
-                            <span class="invalid-feedback" role="alert">
-                                <strong>Error za pw</strong>
-                            </span>                            
+                            <input id="password" type="password" class="form-control" name="password" required autocomplete="new-password">                          
                         </div>
                     </div>
 

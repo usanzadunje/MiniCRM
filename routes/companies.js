@@ -1,13 +1,14 @@
 var express = require('express');
 var router = express.Router();
 var CompanyController = require('../controllers/CompanyController');
+var auth = require('../middlewares/auth')
 
-router.get('/create', CompanyController.create);
+router.get('/create', auth(), CompanyController.create);
 
-router.post('/', CompanyController.store);
+router.post('/', auth(), CompanyController.store);
 
-router.get('/edit/:id', CompanyController.edit);
+router.get('/edit/:id', auth(), CompanyController.edit);
 
-router.patch('/:id', CompanyController.edit);
+router.patch('/:id', auth(), CompanyController.edit);
 
 module.exports = router;
