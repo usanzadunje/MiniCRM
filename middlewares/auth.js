@@ -4,12 +4,8 @@ const auth = () => {
             next();
         }
         else{
-            res.render('error', {
-                message: 'UNAUTHORIZED',
-                error: {
-                status: 401,
-                }
-            });
+            req.flash('danger', 'Please log in to proceed..');
+            res.redirect('/login');
         }
     }
 }

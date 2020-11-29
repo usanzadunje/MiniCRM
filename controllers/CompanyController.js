@@ -1,29 +1,24 @@
+const { query } = require('express');
 const config = require('../config')
 
 const conn = config.conn;
+
 
 module.exports = {
 
     index: function(req, res, next) {   
         let query = `SELECT * FROM companies`;
-
+        let i = 0;
+        
         conn.query(query, (err, result) => {
             if(err) throw err;
-            
-            if(res.locals.user){
-                return res.render('home', {
-                    companies: result
-                }); 
-            }
-            else{
-                res.render('error', {
-                  message: 'UNAUTHORIZED',
-                  error: {
-                    status: 401,
-                  }
-                })
-            }
-        });        
+
+            return res.render('home', {
+                companies: result,
+                i
+            });
+        });  
+          
     },
 
     create: function(req, res, next) {   
@@ -41,20 +36,12 @@ module.exports = {
             if(err) throw err;
 
             return res.render('companies/edit', {
-                company: result
+                company: result[0]
             });
         });  
     },
     
     update: function(req, res, next) {   
-        let query = `SELECT * FROM companies`;
-
-        conn.query(query, (err, result) => {
-            if(err) throw err;
-            
-            return res.render('home', {
-                companies: result
-            }); 
-        });        
+        //edit       
     },
-}
+};

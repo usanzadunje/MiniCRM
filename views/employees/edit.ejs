@@ -2,32 +2,32 @@
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div class="card">
-            <h1 class="display-4 text-center">Create new employee</h1>
+            <h1 class="display-4 text-center">EDIT | <%= employee.fname + employee.lname %> </h1>
 
             <div class="card-body">
                 <div class="alert alert-success" role="alert">
                     Obavestenja
                 </div>
                 
-                <form action="">
+                <form action="/employees/<%= employee.id %> " method="POST">
                     <div class="form-group">
                         <label for="fname">First name</label>
-                        <input type="text" name="fname" id="fname" value="Your first name" class="form-control">                                
+                        <input type="text" name="fname" id="fname" value="<%= employee.fname %>" class="form-control">                                
                     </div>
 
                     <div class="form-group">
                         <label for="lname">Last name</label>
-                        <input type="text" name="lname" id="lname" value="Your last name" class="form-control">
+                        <input type="text" name="lname" id="lname" value="<%= employee.lname %>" class="form-control">
                     </div>
 
                     <div class="form-group">                     
                         <label for="email">E-mail name</label>
-                        <input type="email" name="email" id="email" value="Your e-mail" class="form-control">
+                        <input type="email" name="email" id="email" value="<%= employee.email %>" class="form-control">
                     </div>
 
                     <div class="form-group">
                         <label for="phone">Phone number</label>
-                        <input type="text" name="phone" id="phone" value="Your phone number" class="form-control">                        
+                        <input type="text" name="phone" id="phone" value="<%= employee.phone %>" class="form-control">                        
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-lg float-right">Update</button>

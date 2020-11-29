@@ -3,21 +3,12 @@ var router = express.Router();
 var EmployeeController = require('../controllers/EmployeeController');
 var auth = require('../middlewares/auth')
 
-router.get('/', auth(), function(req, res, next) {
-  res.render('employees/index');
-});
+router.get('/:companyId', auth(), EmployeeController.index);
 
-router.get('/show/:id', auth(), function(req, res, next) {
-  let id = req.params.id;
-  res.render('employees/show', {id});
-});
+router.get('/show/:id', auth(), EmployeeController.show);
 
-router.get('/create', auth(), function(req, res, next) {
-  res.render('employees/create');
-});
+router.get('/create/:companyId', auth(), EmployeeController.create);
 
-router.get('/edit', auth(), function(req, res, next) {
-  res.render('employees/create');
-});
+router.get('/edit/:id', auth(), EmployeeController.edit);
 
 module.exports = router;

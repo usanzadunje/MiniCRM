@@ -6,7 +6,7 @@ var auth = require('../middlewares/auth')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express', data: JSON.stringify(req.session)});
+  res.render('welcome', { data: JSON.stringify(req.session)});
 });
 
 router.get('/home', auth(), CompanyController.index);
