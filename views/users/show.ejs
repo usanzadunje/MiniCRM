@@ -1,0 +1,26 @@
+<%- include('../layouts/header', {title: 'Index Users'}); -%>
+
+<h1 class="display-4 text-center my-5">Here is your information <%= user.name %> </h1>
+
+<div class="row justify-content-center my-5">
+    <div class="col-lg-6">
+        <div class="input-group justify-content-between">
+            <span class="input-group-text w-25 mr-3">Name</span>
+            <input type="text" class="form-control" id="fname" value="<%= user.name %>" disabled>
+        </div>
+
+        <div class="input-group">
+            <span class="input-group-text w-25 mr-3">Email</span>
+            <input type="email" class="form-control" id="email" value="<%= user.email %>" disabled>
+        </div>
+
+        <div class="mt-5">            
+            <a href="/users/edit" class="btn btn-primary btn-lg float-right">Edit</a>
+        </div>        
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <img src="/images/pencilAnimation.gif" width="600px" height="500px">
+</div>
+<%- include('../layouts/footer'); -%>

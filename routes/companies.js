@@ -9,6 +9,8 @@ router.post('/', auth(), CompanyController.store);
 
 router.get('/edit/:id', auth(), CompanyController.edit);
 
-router.patch('/:id', auth(), CompanyController.edit);
+router.patch('/:id', auth(), CompanyController.update);
+
+router.delete('/:id', auth(), CompanyController.delete);
 
 module.exports = router;

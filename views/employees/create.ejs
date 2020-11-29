@@ -5,30 +5,34 @@
             <h1 class="display-4 text-center">Create new employee</h1>
 
             <div class="card-body">                                
-                <form action="/employees/store" method="POST">
+                <form action="/employees/" method="POST">
                     <div class="form-group">
                         <label for="fname">First name</label>
-                        <input type="text" name="fname" id="fname" placeholder="Your first name" class="form-control">                                
+                        <input type="text" name="fname" id="fname" value="<%= flash.fname ? flash.fname : '' %>" class="form-control" required>                                
                     </div>
 
                     <div class="form-group">
                         <label for="lname">Last name</label>
-                        <input type="text" name="lname" id="lname" placeholder="Your last name" class="form-control">
+                        <input type="text" name="lname" id="lname" value="<%= flash.lname ? flash.lname : '' %>" class="form-control" required>
                     </div>
 
                     <div class="form-group">                     
                         <label for="email">E-mail name</label>
-                        <input type="email" name="email" id="email" placeholder="Your e-mail" class="form-control">
+                        <input type="email" name="email" id="email" class="form-control" required>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group mb-5">
                         <label for="phone">Phone number</label>
-                        <input type="text" name="phone" id="phone" placeholder="Your phone number" class="form-control">                        
+                        <input type="text" name="phone" id="phone" value="<%= flash.phone ? flash.phone : '' %>" class="form-control" required>                        
                     </div>
 
                     <input type="hidden" name="company_id" id="company_id" value="<%= companyId %> ">
 
-                    <button type="submit" class="btn btn-primary btn-lg float-right">Create</button>
+                    <div class="d-flex justify-content-between">
+                        <a href="/employees/<%= companyId %> " class="btn btn-secondary btn-lg"> Go back</a>
+                        
+                        <button type="submit" class="btn btn-primary btn-lg">Create</button>
+                    </div>
                 </form>
 
             </div>

@@ -1,8 +1,6 @@
 const bcrypt = require('bcrypt');
-const config = require('../config');
+const conn = require('../config').conn;
 const mysql = require('mysql');
-
-const conn = config.conn;
 
 module.exports = {
 
@@ -48,13 +46,25 @@ module.exports = {
         }
         if(req.method === 'POST'){     
             if(req.body.password === req.body.password_confirmation){
-                let query = `INSERT INTO users(name, email, password) VALUES('${req.body.name}', '${req.body.email}', '${bcrypt.hashSync(req.body.password, 10)}')`;
-                conn.query(query, (err, result) => {
+                let query = `SELECT id FROM users WHERE email LIKE ?`;
+                conn.query(query, req.body.email, (err, emailExists) => {
                     if(err) throw err;
-                    console.log(`User added. ID: ${result.insertId}`);
-                    req.flash('success', 'You account has been created successfully. Please log in to proceed..');
-                    res.redirect('/login');
+                    if(emailExists.length === 0){
+                        let query = `INSERT INTO users(name, email, password) VALUES('${req.body.name}', '${req.body.email}', '${bcrypt.hashSync(req.body.password, 10)}')`;
+                        conn.query(query, (err, result) => {
+                            if(err) throw err;
+                            console.log(`User added. ID: ${result.insertId}`);
+                            req.flash('success', 'You account has been created successfully. Please log in to proceed..');
+                            res.redirect('/login');
+                        });
+                    }
+                    else{
+                        req.flash('danger', 'User with that e-mail already exists..');
+                        req.flash('name', req.body.name);
+                        res.redirect('/register');
+                    }
                 });
+                
             }
             else{
                 req.flash('danger', 'Your passwords do not match. Try again..');

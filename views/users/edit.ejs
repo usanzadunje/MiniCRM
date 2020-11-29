@@ -1,0 +1,40 @@
+<%- include('../layouts/header', {title: 'Index Users'}); -%>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <h1 class="display-4 text-center">EDIT | <%= user.name %> </h1>
+
+            <div class="card-body">                
+                <form action="/users/" method="POST">
+                    <div class="form-group">
+                        <label for="fname">Name</label>
+                        <input type="text" name="name" id="name" value="<%= user.name %>" class="form-control" required>                                
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lname">E-mail</label>
+                        <input type="text" name="email" id="email" value="<%= user.email %>" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input id="password" type="password" class="form-control" name="password" required autocomplete="new-password">                          
+                    </div>
+
+                    <div class="form-group mb-5">
+                        <label for="password-confirm">Confirm Password</label>
+                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="/users/show" class="btn btn-secondary btn-lg">Go back</a>
+                        
+                        <button type="submit" class="btn btn-primary btn-lg">Update</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../layouts/footer'); -%>

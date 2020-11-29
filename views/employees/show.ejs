@@ -1,5 +1,26 @@
 <%- include('../layouts/header', {title: 'Index Users'}); -%>
-<div class="row justify-content-center">
+<div class="row justify-content-center"
+    x-data="{
+        id: '',
+
+        remove() {
+            const formData = new FormData();
+            formData.append('company_id', '<%= employee.company_id %> ');
+            const data = new URLSearchParams(formData);
+            fetch('/employees/' + this.id, {
+                method: 'DELETE',
+                redirect: 'follow',
+                body: data,
+            })
+            .then(response => {
+                window.location.href = '/employees/<%= employee.company_id %>';
+            })
+            .catch(err => { 
+                if(err) throw err;
+            });
+        },
+    }"
+>
     <div class="col-md-8">
         <div class="card">
             <h1 class="display-4 text-center">EDIT | <%= employee.fname + ' ' + employee.lname %></h1>
@@ -41,17 +62,41 @@
                     </tr>
                     <tr>
                         <th></th>
-                        <th scope="col">Actions</th>
+                        <th><a href="/employees/<%= employee.company_id %> " class="btn btn-secondary">Go back</a></th>
                         <th>
                             <a href="/employees/edit/<%= employee.id %>" class="btn btn-primary">Edit</a>
+                            <button @click="id = <%= employee.id %>" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteUserModal">
+                                Delete
+                            </button>
+                              
+                              <!-- Modal -->
+                              <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLabel">Deleting...</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body">
+                                      Do you really want to proceed with deleting employee?
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                      <button @click.prevent="remove" type="button" class="btn btn-primary">Proceed</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- End Modal -->
                         </th>
-                        <td></td>
+                        <td></td>                        
                     </tr>
                     <tr>
                         <th></th>
-                        <th scope="col">Action</th>
-                        <th>
-                            <a href="/employees/<%= employee.company_id %> " class="btn btn-secondary">Go back</a>
+                        <th></th>
+                        <th>                            
                         </th>
                         <td></td>
                     </tr>

@@ -43,6 +43,14 @@ app.use(function(req, res, next) {
   }
   next();
 });
+app.use(function(req, res, next) {
+  if(req.params){
+    next();
+  }
+  else{
+    res.redirect('back');
+  }
+});
 
 //Routes
 app.use('/', indexRouter);

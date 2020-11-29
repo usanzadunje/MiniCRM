@@ -1,36 +1,64 @@
 <%- include('../layouts/header', {title: 'Index Users'}); -%>
-<div class="row justify-content-center">
+<div class="row justify-content-center"
+    x-data="{
+        fname: '<%= employee.fname%>',
+        lname: '<%= employee.lname%>',
+        email: '<%= employee.email%>',
+        phone: '<%= employee.phone%>',
+
+        update() {
+            const formData = new FormData();
+            formData.append('id', '<%= employee.id %> ');
+            formData.append('fname', this.fname);
+            formData.append('lname', this.lname);
+            formData.append('email', this.email);
+            formData.append('phone', this.phone);
+            const data = new URLSearchParams(formData);
+            fetch('/employees/<%= employee.id %>', {
+                method: 'PATCH',
+                redirect: 'follow',
+                body: data,
+            })
+            .then(response => {
+                window.location.href = '/employees/show/<%= employee.id %>';
+            })
+            .catch(err => { 
+                if(err) throw err;
+            });
+        },
+    }"
+>
     <div class="col-md-8">
         <div class="card">
             <h1 class="display-4 text-center">EDIT | <%= employee.fname + employee.lname %> </h1>
 
-            <div class="card-body">
-                <div class="alert alert-success" role="alert">
-                    Obavestenja
-                </div>
-                
-                <form action="/employees/<%= employee.id %> " method="POST">
+            <div class="card-body">                
+                <form>
                     <div class="form-group">
                         <label for="fname">First name</label>
-                        <input type="text" name="fname" id="fname" value="<%= employee.fname %>" class="form-control">                                
+                        <input x-model="fname" type="text" name="fname" id="fname" value="<%= employee.fname %>" class="form-control" required>                                
                     </div>
 
                     <div class="form-group">
                         <label for="lname">Last name</label>
-                        <input type="text" name="lname" id="lname" value="<%= employee.lname %>" class="form-control">
+                        <input x-model="lname" type="text" name="lname" id="lname" value="<%= employee.lname %>" class="form-control" required>
                     </div>
 
                     <div class="form-group">                     
                         <label for="email">E-mail name</label>
-                        <input type="email" name="email" id="email" value="<%= employee.email %>" class="form-control">
+                        <input x-model="email" type="email" name="email" id="email" value="<%= employee.email %>" class="form-control" required>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group mb-5">
                         <label for="phone">Phone number</label>
-                        <input type="text" name="phone" id="phone" value="<%= employee.phone %>" class="form-control">                        
+                        <input x-model="phone" type="text" name="phone" id="phone" value="<%= employee.phone %>" class="form-control" required>                        
                     </div>
 
-                    <button type="submit" class="btn btn-primary btn-lg float-right">Update</button>
+                    <div class="d-flex justify-content-between">
+                        <a href="/employees/show/<%= employee.id %> " class="btn btn-secondary btn-lg">Go back</a>
+                        
+                        <button @click.prevent="update" type="submit" class="btn btn-primary btn-lg">Update</button>
+                    </div>
                 </form>
 
             </div>

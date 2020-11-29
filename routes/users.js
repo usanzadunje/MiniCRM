@@ -4,6 +4,10 @@ var UserController = require('../controllers/UserController');
 var auth = require('../middlewares/auth')
 
 /* GET users listing. */
-router.get('/', auth(), UserController.index);
+router.get('/show', auth(), UserController.show);
+
+router.get('/edit', auth(), UserController.edit);
+
+router.post('/', auth(), UserController.update);
 
 module.exports = router;
