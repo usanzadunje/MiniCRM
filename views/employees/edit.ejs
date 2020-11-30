@@ -1,18 +1,9 @@
 <%- include('../layouts/header', {title: 'Index Users'}); -%>
 <div class="row justify-content-center"
     x-data="{
-        fname: '<%= employee.fname%>',
-        lname: '<%= employee.lname%>',
-        email: '<%= employee.email%>',
-        phone: '<%= employee.phone%>',
-
         update() {
-            const formData = new FormData();
+            const formData = new FormData(document.getElementById('form'));
             formData.append('id', '<%= employee.id %> ');
-            formData.append('fname', this.fname);
-            formData.append('lname', this.lname);
-            formData.append('email', this.email);
-            formData.append('phone', this.phone);
             const data = new URLSearchParams(formData);
             fetch('/employees/<%= employee.id %>', {
                 method: 'PATCH',
@@ -36,22 +27,22 @@
                 <form>
                     <div class="form-group">
                         <label for="fname">First name</label>
-                        <input x-model="fname" type="text" name="fname" id="fname" value="<%= employee.fname %>" class="form-control" required>                                
+                        <input type="text" name="fname" id="fname" value="<%= employee.fname %>" class="form-control" required>                                
                     </div>
 
                     <div class="form-group">
                         <label for="lname">Last name</label>
-                        <input x-model="lname" type="text" name="lname" id="lname" value="<%= employee.lname %>" class="form-control" required>
+                        <input type="text" name="lname" id="lname" value="<%= employee.lname %>" class="form-control" required>
                     </div>
 
                     <div class="form-group">                     
                         <label for="email">E-mail name</label>
-                        <input x-model="email" type="email" name="email" id="email" value="<%= employee.email %>" class="form-control" required>
+                        <input type="email" name="email" id="email" value="<%= employee.email %>" class="form-control" required>
                     </div>
 
                     <div class="form-group mb-5">
                         <label for="phone">Phone number</label>
-                        <input x-model="phone" type="text" name="phone" id="phone" value="<%= employee.phone %>" class="form-control" required>                        
+                        <input type="text" name="phone" id="phone" value="<%= employee.phone %>" class="form-control" required>                        
                     </div>
 
                     <div class="d-flex justify-content-between">

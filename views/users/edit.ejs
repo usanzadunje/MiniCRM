@@ -1,11 +1,29 @@
 <%- include('../layouts/header', {title: 'Index Users'}); -%>
-<div class="row justify-content-center">
+<div class="row justify-content-center"
+    x-data="{
+        update() {
+            const formData = new FormData(document.getElementById('form'));
+            const data = new URLSearchParams(formData);
+            fetch('/users/', {
+                method: 'PATCH',
+                redirect: 'follow',
+                body: data,
+            })
+            .then(response => {
+                window.location.href = '/users/show';
+            })
+            .catch(err => { 
+                if(err) throw err;
+            });
+        },
+    }"
+>
     <div class="col-md-8">
         <div class="card">
             <h1 class="display-4 text-center">EDIT | <%= user.name %> </h1>
 
             <div class="card-body">                
-                <form action="/users/" method="POST">
+                <form id="form">
                     <div class="form-group">
                         <label for="fname">Name</label>
                         <input type="text" name="name" id="name" value="<%= user.name %>" class="form-control" required>                                
@@ -29,7 +47,7 @@
                     <div class="d-flex justify-content-between">
                         <a href="/users/show" class="btn btn-secondary btn-lg">Go back</a>
                         
-                        <button type="submit" class="btn btn-primary btn-lg">Update</button>
+                        <button @click.prevent="update" type="submit" class="btn btn-primary btn-lg">Update</button>
                     </div>
                 </form>
 

@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const conn = require('../config').conn;
 const mysql = require('mysql');
+const Str = require('@supercharge/strings');
 
 module.exports = {
 
@@ -22,7 +23,11 @@ module.exports = {
                 if(result.length != 0){
                     if(bcrypt.compareSync(password, result[0].password)){
                         res.locals.user = result[0];
-                        req.session.user = result[0];
+                        req.session.user = {
+                            id: result[0].id,
+                            name: result[0].name,
+                            email: result[0].email
+                        }
                         req.flash('success', 'You have been logged in successfully!');
                         res.redirect('/home');
                     }
@@ -78,6 +83,57 @@ module.exports = {
     logout: function(req, res, next) {
         delete req.session['user'];
         res.redirect('/login');
+    },
+
+    facebookLogin: function(req, res) {
+        console.log(req.user);
+        let name = req.user.displayName;
+        let email = req.user.emails[0].value;
+        let password = Str.random(30);
+
+        let query = `SELECT * FROM users WHERE email LIKE ?`;
+        conn.query(query, email, (err, emailExists) => {
+            if(err) throw err;
+            if(emailExists.length > 0 && emailExists[0].provider === ''){
+                req.flash('danger', 'User with that e-mail already exists..');
+                res.redirect('/login');                
+            }
+            else if(emailExists.length === 0){
+                let query = `INSERT INTO users(name, email, password, provider) VALUES('${name}', '${email}', '${bcrypt.hashSync(password, 10)}', 'facebook')`;
+                conn.query(query, (err, result) => {
+                    if(err) throw err;
+                    console.log(`User added. ID: ${result.insertId}`);
+                    req.session['user'] = {
+                        id: result.insertId,
+                        name: name,
+                        email: email,
+                        provider: 'facebook',                        
+                    }
+                    delete req.session['passport'];                    
+                    req.flash('success', 'You successfully logged in via Facebook..');
+                    res.redirect('/home');
+                });
+            }
+            else if(emailExists.length > 0 && emailExists[0].provider != null){
+                let query = `SELECT * FROM users WHERE email LIKE ?`;
+                conn.query(query, req.user.emails[0].value, (err, result) => {
+                    if(err) throw err;
+                    req.session['user'] = {
+                        id: result[0].id,
+                        name: result[0].name,
+                        email: result[0].email,
+                        provider: 'facebook',                        
+                    }
+                    delete req.session['passport'];                    
+                    req.flash('success', 'You successfully logged in via Facebook..');
+                    res.redirect('/home');
+                });                
+            }
+            else{
+                req.flash('danger', 'Something went wrong. Please try again..');
+                res.redirect('/login');
+            }
+        });
     }
     
 }

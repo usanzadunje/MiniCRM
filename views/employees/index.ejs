@@ -31,47 +31,56 @@
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
                         <th scope="col">E-mail</th>
-                        <th scope="col" class="text-center"><a href="/employees/create/<%= employees[0].company_id%>" class="btn btn-success">Add employee</a></th>
+                        <th scope="col" class="text-center"><a href="/employees/create/<%= company.id %>" class="btn btn-success">Add employee</a></th>
                     </tr>
                     </thead>
-                    <tbody>
-                        <% employees.forEach(employee => { %>
-                            <tr>
-                                <th scope="row"><%= ++i %> </th>
-                                <td><a href="/employees/show/<%= employee.id %>"><%= employee.fname + ' ' + employee.lname %></a></td>
-                                <td><%= employee.email %></td>
-                                <td class="text-center">
-                                    <button @click="id = <%= employee.id %>" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
-                                        Delete
-                                    </button>
-                                      
-                                      <!-- Modal -->
-                                      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                          <div class="modal-content">
-                                            <div class="modal-header">
-                                              <h5 class="modal-title" id="exampleModalLabel">Deleting...</h5>
-                                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                              </button>
-                                            </div>
-                                            <div class="modal-body">
-                                              Do you really want to proceed with deleting employee?
-                                            </div>
-                                            <div class="modal-footer">
-                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                              <button @click.prevent="remove" type="button" class="btn btn-primary">Proceed</button>
+                    <% if (employees.length > 0) { %>
+                        <tbody>
+                            <% employees.forEach(employee => { %>
+                                <tr>
+                                    <th scope="row"><%= ++i %> </th>
+                                    <td><a href="/employees/show/<%= employee.id %>"><%= employee.fname + ' ' + employee.lname %></a></td>
+                                    <td><%= employee.email %></td>
+                                    <td class="text-center">
+                                        <button @click="id = <%= employee.id %>" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                                            Delete
+                                        </button>
+                                          
+                                          <!-- Modal -->
+                                          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                              <div class="modal-content">
+                                                <div class="modal-header">
+                                                  <h5 class="modal-title" id="exampleModalLabel">Deleting...</h5>
+                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                  </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                  Do you really want to proceed with deleting employee?
+                                                </div>
+                                                <div class="modal-footer">
+                                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                  <button @click.prevent="remove" type="button" class="btn btn-primary">Proceed</button>
+                                                </div>
+                                              </div>
                                             </div>
                                           </div>
-                                        </div>
-                                      </div>
-                                      <!-- End Modal -->
-                                </td>
-                            </tr>
-                        <% }) %>
-                    </tbody>
+                                          <!-- End Modal -->
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    <% } else { %>
+                        <tbody>
+                            <tr>
+                                <td colspan="4">
+                                    <h3 class="display-4" style="font-size: 25px;">This company has no employees yet. Add some using button in upper right corner..</h3>
+                                </td>                                
+                            </tr>                    
+                        </tbody>
+                    <% } %>
                 </table>
-
                 <a href="/home" class="btn btn-primary btn-lg">Show all companies</a>
             </div>
         </div>

@@ -10,10 +10,6 @@ module.exports = {
         
         conn.query(query, req.params.companyId, (err, result) => {
             if(err) throw err;
-            if(result.length === 0){
-                req.flash('danger', 'BAD REQUEST. TRY AGAIN!')
-                res.redirect('/home');
-            }
 
             conn.query(queryCompany, (err, result1) =>{
                 if(err) throw err;

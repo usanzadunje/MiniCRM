@@ -4,19 +4,8 @@
         <div 
             class="card"
             x-data="{
-                name: '<%= company.name%>',
-                email: '<%= company.email%>',
-                website: '<%= company.website%>',
-                logo: '',
-
                 update() {
-                    const formData = new FormData();
-                    //const fileField = document.getElementById('logo');
-                    formData.append('id', '<%= company.id %> ');
-                    formData.append('name', this.name);
-                    formData.append('email', this.email);
-                    formData.append('website', this.website);
-                    formData.append('logo', this.logo.split('\\')[2]);
+                    const formData = new FormData(document.getElementById('form'));
                     const data = new URLSearchParams(formData);
                     fetch('/companies/<%= company.id %>', {
                         method: 'PATCH',
@@ -35,25 +24,25 @@
             <h1 class="display-4 text-center">EDIT | <%= company.name %> </h1>
 
             <div class="card-body">
-                <form enctype="multipart/form-data">
+                <form enctype="multipart/form-data" id="form">
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input x-model="name" type="text" name="name" id="name" class="form-control" required>                           
+                        <input type="text" name="name" id="name" class="form-control" required>                           
                     </div>
 
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input x-model="email" type="email" name="email" id="email" class="form-control" required> 
+                        <input type="email" name="email" id="email" class="form-control" required> 
                     </div>
 
                     <div class="form-group">
                         <label for="website">Website</label>
-                        <input x-model="website" type="website" name="website" id="website" class="form-control" required>                
+                        <input type="website" name="website" id="website" class="form-control" required>                
                     </div>
 
                     <div class="form-group mb-5">
                         <label for="logo">Logo</label>
-                        <input x-model="logo" type="file" name="logo" id="logo" class="form-control-file">                
+                        <input type="file" name="logo" id="logo" class="form-control-file">                
                     </div>
                     <div class="d-flex justify-content-between">
                         <a href="/home" class="btn btn-secondary btn-lg">Go back</a>

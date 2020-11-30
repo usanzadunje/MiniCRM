@@ -8,6 +8,6 @@ router.get('/show', auth(), UserController.show);
 
 router.get('/edit', auth(), UserController.edit);
 
-router.post('/', auth(), UserController.update);
+router.patch('/', auth(), UserController.update);
 
 module.exports = router;

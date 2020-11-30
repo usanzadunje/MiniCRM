@@ -1,5 +1,4 @@
 const { all } = require('../app');
-
 const conn = require('../config').conn
 
 module.exports = {
@@ -23,7 +22,7 @@ module.exports = {
         return res.render('companies/create');  
     },
 
-    store: function(req, res, next) {  
+    store: function(req, res, next) { 
         let query = `INSERT INTO companies(name, email, website, logo)
                      VALUES('${req.body.name}', '${req.body.email}', '${req.body.website}', '${req.body.logo}')`;
 

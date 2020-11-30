@@ -5,6 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
 var flash = require('connect-flash');
+var passport = require("passport")
+var FacebookStrategy = require("passport-facebook").Strategy
 
 //Routes
 var indexRouter = require('./routes/index');
@@ -51,6 +53,29 @@ app.use(function(req, res, next) {
     res.redirect('back');
   }
 });
+
+//Passport registracija
+app.use(passport.initialize());
+app.use(passport.session());
+passport.serializeUser(function(user, done) {
+  done(null, user)
+})
+passport.deserializeUser(function(user, done) {
+  done(null, user)
+})
+passport.use(
+  new FacebookStrategy(
+    {
+      clientID: "3524778844207513",
+      clientSecret: "cc3bd5feb33de53a0e0cfa56254bd753",
+      callbackURL: "http://localhost:8000/auth/facebook/callback",
+      profileFields: ['id', 'emails', 'displayName']
+    },
+    function(accessToken, refreshToken, profile, cb) {
+      return cb(null, profile)
+    }
+  )
+)
 
 //Routes
 app.use('/', indexRouter);
