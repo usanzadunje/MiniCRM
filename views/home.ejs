@@ -33,7 +33,6 @@
                         <th scope="col">#</th>
                         <th scope="col">Logo</th>
                         <th scope="col">Company Name</th>
-                        <th scope="col">Employee count</th>
                         <th scope="col"></th>
                         <th scope="col" class="text-center"><a href="/companies/create" class="btn btn-success">Add company</a></th>
                     </tr>
@@ -42,9 +41,8 @@
                     <% companies.forEach(company => { %>
                         <tr>
                             <td class="align-middle"><%= ++i %> </td>
-                            <td scope="row"><a href="#"><img src="<%= 'images/' + company.logo %>"  width="100px" height="100px"></a></td>
+                            <td scope="row"><a href="//<%= company.website %>" target="_blank"><img src="<%= 'images/' + company.logo %>"  width="100px" height="100px"></a></td>
                             <td class="align-middle"><a href="/employees/<%= company.id %>"><%= company.name %></a></td>
-                            <td class="align-middle">0</td>
                             <td class="text-center align-middle"><a href="/companies/edit/<%= company.id %>" class="btn btn-primary">Update</a></td>
                             <td class="text-center align-middle">
                                 <button @click="id = <%= company.id %>" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">

@@ -7,6 +7,7 @@ var session = require('express-session');
 var flash = require('connect-flash');
 var passport = require("passport")
 var FacebookStrategy = require("passport-facebook").Strategy
+const fileUpload = require('express-fileupload');
 
 //Routes
 var indexRouter = require('./routes/index');
@@ -53,6 +54,8 @@ app.use(function(req, res, next) {
     res.redirect('back');
   }
 });
+
+app.use(fileUpload())
 
 //Passport registracija
 app.use(passport.initialize());

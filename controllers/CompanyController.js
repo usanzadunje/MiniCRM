@@ -1,5 +1,6 @@
-const { all } = require('../app');
-const conn = require('../config').conn
+const conn = require('../config').conn;
+const path = require('path');
+const fs = require('fs');
 
 module.exports = {
 
@@ -23,20 +24,38 @@ module.exports = {
     },
 
     store: function(req, res, next) { 
+        let logoName = '';
+        let logo = null;
+                        
+        if (req.files) {
+            logo = req.files.photo;
+            logoName = Date.now() + '_' + logo.name ;           
+        }
+        else{
+            logoName = 'noimage.jpg';            
+        }
         let query = `INSERT INTO companies(name, email, website, logo)
-                     VALUES('${req.body.name}', '${req.body.email}', '${req.body.website}', '${req.body.logo}')`;
+                     VALUES('${req.body.name}', '${req.body.email}', '${req.body.website}', '${logoName}')`;
 
         conn.query(query, (err, result) => {
             if(err) throw err;
+            if(logoName !== 'noimage.jpg'){
+                logo.mv(path.join(__dirname, '../public/images/' + logoName), function(err) {
+                    if (err){
+                        req.flash('danger', 'Something went wrong with uploading your image.')
+                        return res.redirect(500, 'home');
+                    }                    
+                });    
+            }
 
             console.log(`Company added. ID: ${result.insertId}`);
             req.flash('success', 'Company successfully created..');
             res.redirect('/home');
-        })
+        });
     },
 
     edit: function(req, res, next) {          
-        let query = `SELECT * FROM companies WHERE id = ${req.params.id} LIMIT 1`;
+        let query = `SELECT * FROM companies WHERE id = ${req.params.id}`;
 
         conn.query(query, (err, result) => {
             if(err) throw err;
@@ -52,26 +71,70 @@ module.exports = {
     },
     
     update: function(req, res, next) {  
-        let query = `UPDATE companies SET 
+        let logoName = '';
+        let logo = null;
+        let querySelect = `SELECT * FROM companies WHERE id = ?`
+
+        conn.query(querySelect, req.params.id, (err, result) => {
+            if(err) throw err;
+
+            if (req.files) {
+                logo = req.files.photo;
+                logoName = Date.now() + '_' + logo.name ;           
+            }
+            else{
+                logoName = result[0].logo;
+            }              
+
+            let queryUpdate = `UPDATE companies SET 
                      name = '${req.body.name}', 
                      email = '${req.body.email}',
                      website = '${req.body.website}',
-                     logo = '${req.body.logo}'
-                     WHERE id = ${req.body.id}`;
-        conn.query(query, (err, result) => {
-            if(err) throw err;
-            req.flash('success', `Company ${req.body.name} has been updated successfully..`);
-            res.redirect('/home');
-        });                  
+                     logo = '${logoName}'
+                     WHERE id = ${req.params.id}`;
+            conn.query(queryUpdate, (err, result1) => {
+                if(err) throw err;
+
+                if(logoName !== result[0].logo){
+                    if(result[0].logo !== 'noimage.jpg'){
+                        fs.unlinkSync(path.join(__dirname, '../public/images/' + result[0].logo));  
+                    }                 
+                    logo.mv(path.join(__dirname, '../public/images/' + logoName), function(err) {
+                        if (err){
+                            req.flash('danger', 'Something went wrong with uploading your image.')
+                            return res.redirect(500, 'home');
+                        }                    
+                    });                                        
+                }
+
+                req.flash('success', `Company ${req.body.name} has been updated successfully..`);
+                res.redirect('/home');
+            });   
+            
+        });
+
+        
+
+                       
     },
 
     delete: function(req, res, next) {  
-        let query = `DELETE FROM companies WHERE id = ?`;
-        conn.query(query, req.params.id, (err, result) => {
+        let queryDelete = `DELETE FROM companies WHERE id = ?`;
+        let querySelect = `SELECT * FROM companies WHERE id = ?`;
+
+        conn.query(querySelect, req.params.id, (err, result) => {
             if(err) throw err;
 
-            req.flash('danger', `Company has been deleted successfully..`);
-            res.redirect('/employees/' + req.body.company_id);
-        });
+            if(result[0].logo !== 'noimage.jpg'){
+                fs.unlinkSync(path.join(__dirname, '../public/images/' + result[0].logo))
+            }
+
+            conn.query(queryDelete, req.params.id, (err, result1) => {
+                if(err) throw err;
+    
+                req.flash('success', `Company has been deleted successfully..`);
+                res.redirect('/home');
+            });
+        });        
     },
 };

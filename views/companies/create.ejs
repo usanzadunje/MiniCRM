@@ -2,13 +2,13 @@
 <div class="row justify-content-center">
     <div class="col-md-8" 
         x-data="{
-            create() {
+            create() {      
                 const formData = new FormData(document.getElementById('form'));
-                const data = new URLSearchParams(formData);
+
                 fetch('/companies/', {
                     method: 'POST',
                     redirect: 'follow',
-                    body: data,
+                    body: formData,
                 })
                 .then(response => {
                     window.location.href = '/home';
@@ -17,6 +17,16 @@
                     if(err) throw err;
                 });
             },
+
+            validate(id) {
+                let element = document.getElementById(id);
+                if(element.value === ''){
+                    console.log('empty');
+                }
+                else{
+                    console.log('not empty');
+                }
+            }
         }"
     >
         <div class="card">
@@ -41,13 +51,14 @@
 
                     <div class="form-group mb-5">
                         <label for="logo">Logo</label>
-                        <input type="file" name="logo" id="logo" class="form-control-file">                
+                        <input type="file" id="photo" name="photo" class="form-control-file">                
                     </div>
                     <div class="d-flex justify-content-between">
                         <a href="/home" class="btn btn-secondary btn-lg">Go back</a>
                         
                         <button @click.prevent="create" type="submit" class="btn btn-primary btn-lg">Create</button>
                     </div>
+                    <button @click.prevent="validate('name')" type="submit" class="btn btn-primary btn-lg">Create</button>
                 </form>
             </div>
         </div>

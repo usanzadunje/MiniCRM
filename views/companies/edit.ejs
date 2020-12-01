@@ -6,11 +6,10 @@
             x-data="{
                 update() {
                     const formData = new FormData(document.getElementById('form'));
-                    const data = new URLSearchParams(formData);
                     fetch('/companies/<%= company.id %>', {
                         method: 'PATCH',
                         redirect: 'follow',
-                        body: data,
+                        body: formData,
                     })
                     .then(response => {
                         window.location.href = '/home';
@@ -27,22 +26,22 @@
                 <form enctype="multipart/form-data" id="form">
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" name="name" id="name" class="form-control" required>                           
+                        <input type="text" name="name" id="name" value="<%= company.name %>" class="form-control" required>                           
                     </div>
 
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" name="email" id="email" class="form-control" required> 
+                        <input type="email" name="email" id="email" value="<%= company.email %>" class="form-control" required> 
                     </div>
 
                     <div class="form-group">
                         <label for="website">Website</label>
-                        <input type="website" name="website" id="website" class="form-control" required>                
+                        <input type="website" name="website" id="website" value="<%= company.website %>" class="form-control" required>                
                     </div>
 
                     <div class="form-group mb-5">
                         <label for="logo">Logo</label>
-                        <input type="file" name="logo" id="logo" class="form-control-file">                
+                        <input type="file" name="photo" id="photo" class="form-control-file">                
                     </div>
                     <div class="d-flex justify-content-between">
                         <a href="/home" class="btn btn-secondary btn-lg">Go back</a>
