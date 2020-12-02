@@ -2,15 +2,16 @@ var express = require('express');
 var router = express.Router();
 var CompanyController = require('../controllers/CompanyController');
 var auth = require('../middlewares/auth')
+var verified = require('../middlewares/verified')
 
-router.get('/create', auth(), CompanyController.create);
+router.get('/create', auth(), verified(), CompanyController.create);
 
-router.post('/', auth(), CompanyController.store);
+router.post('/', auth(), verified(), CompanyController.store);
 
-router.get('/edit/:id', auth(), CompanyController.edit);
+router.get('/edit/:id', auth(), verified(), CompanyController.edit);
 
-router.patch('/:id', auth(), CompanyController.update);
+router.patch('/:id', auth(), verified(), CompanyController.update);
 
-router.delete('/:id', auth(), CompanyController.delete);
+router.delete('/:id', auth(), verified(), CompanyController.delete);
 
 module.exports = router;

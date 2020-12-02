@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MiniCRM</title>
+</head>
+
+<body>
+    <div style="margin: auto 0;">
+        <h1 class="justify-content-center display-3">MiniCRM</h1>
+
+        <p>Click button bellow to verify your e-mail.</p>
+
+        <a href="http://127.0.0.1:8000/email/verify/<%= id %>/<%= hash %>" target="_blank" rel="noopener noreferrer"
+            data-auth="NotApplicable" class="x_button x_button-primary"
+            style="box-sizing:border-box; border-radius:4px; color:#fff; display:inline-block; overflow:hidden; text-decoration:none; background-color:#2d3748; border-bottom:8px solid #2d3748; border-left:18px solid #2d3748; border-right:18px solid #2d3748; border-top:8px solid #2d3748">Verify
+            e-mail</a>
+
+        <p>If button above doesn't work please click link bellow: </p>
+
+        <a href="http://127.0.0.1:8000/email/verify/<%= id %>/<%= hash %>" target="_blank" rel="noopener noreferrer"
+            data-auth="NotApplicable">http://127.0.0.1:8000/email/verify/<%= id %>/<%= hash %></a>
+    </div>
+
+</body>
+
+</html>

@@ -1,7 +1,6 @@
 <%- include('../layouts/header', {title: 'Index Users'}); -%>
 <div class="row justify-content-center">
-    <div class="col-md-8" 
-        x-data="{
+    <div class="col-md-8" x-data="{
             create() {      
                 const formData = new FormData(document.getElementById('form'));
 
@@ -27,8 +26,7 @@
                     console.log('not empty');
                 }
             }
-        }"
-    >
+        }">
         <div class="card">
             <h1 class="display-4 text-center">Create new company</h1>
 
@@ -36,29 +34,33 @@
                 <form enctype="multipart/form-data" id="form">
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" name="name" id="name" placeholder="Company name" class="form-control" required>                           
+                        <input type="text" name="name" id="name" placeholder="Company name" class="form-control"
+                            required>
                     </div>
 
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" name="email" id="email" placeholder="Company e-mail" class="form-control" required> 
+                        <input type="email" name="email" id="email" placeholder="Company e-mail" class="form-control"
+                            required>
                     </div>
 
                     <div class="form-group">
                         <label for="website">Website</label>
-                        <input type="website" name="website" id="website" placeholder="Company website" class="form-control" required>                
+                        <input type="website" name="website" id="website" placeholder="Company website"
+                            class="form-control" required>
                     </div>
 
                     <div class="form-group mb-5">
                         <label for="logo">Logo</label>
-                        <input type="file" id="photo" name="photo" class="form-control-file">                
+                        <input type="file" id="photo" name="photo" class="form-control-file">
                     </div>
                     <div class="d-flex justify-content-between">
                         <a href="/home" class="btn btn-secondary btn-lg">Go back</a>
-                        
+
                         <button @click.prevent="create" type="submit" class="btn btn-primary btn-lg">Create</button>
                     </div>
-                    <button @click.prevent="validate('name')" type="submit" class="btn btn-primary btn-lg">Create</button>
+                    <button @click.prevent="validate('name')" type="submit"
+                        class="btn btn-primary btn-lg">Create</button>
                 </form>
             </div>
         </div>
