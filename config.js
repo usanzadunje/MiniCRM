@@ -1,14 +1,8 @@
 const mysql = require('mysql');
 const nodemailer = require('nodemailer');
+const env = require('../MiniCRM/env');
 
-
-let conn = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'minicrm',
-    port: 3308
-});
+let conn = mysql.createConnection(env.mysql);
 
 let mailer = {
     transporter: nodemailer.createTransport({
@@ -16,13 +10,10 @@ let mailer = {
         port: 465,
         secure: true,
         service: 'gmail',
-        auth: {
-            user: 'dussan96@gmail.com',
-            pass: 'lxoxqkfewkuwrflg'
-        }
+        auth: env.email
     }),
 
-    mailOptions: mailOptions = (to, subject, html, context) => {
+    mailOptions: mailOptions = (to, subject, html,) => {
         return {
             from: 'dussan96@gmail.com',
             to: to,
