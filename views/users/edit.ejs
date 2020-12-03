@@ -1,6 +1,10 @@
 <%- include('../layouts/header', {title: 'Index Users'}); -%>
-<div class="row justify-content-center"
-    x-data="{
+<div class="row justify-content-center" x-data="{
+        name: '<%= user.name %>',
+        email: '<%= user.email %>',
+        password: '', 
+        password_confirm: '',
+
         update() {
             const formData = new FormData(document.getElementById('form'));
             const data = new URLSearchParams(formData);
@@ -16,43 +20,117 @@
                 if(err) throw err;
             });
         },
-    }"
->
+
+        validate(id) {
+            let element = document.getElementById(id);
+            if(element.value === ''){
+                if(element.parentNode.children.length === 1){
+                    element.style = 'border: 2px solid #e01a16';
+                    let errorMsg = document.createElement('p');
+                    errorMsg.id = 'errorMsg';          
+                    errorMsg.style = 'color: #e01a16; font-size: 12px; margin-bottom: 0px'              
+                    errorMsg.innerHTML = element.id.charAt(0).toUpperCase() + element.id.slice(1) + ' is required.';
+                    element.parentNode.insertBefore(errorMsg, element.nextSibling);
+                }
+            }
+            else{
+                element.style = 'border: 1px solid #ced4da;';
+                let errorMsg = element.nextElementSibling;
+                if(errorMsg) errorMsg.remove();
+                else return;
+            }
+        },
+
+        passwordMatch(ev) {
+            this.validate('password');
+            this.validate('password-confirm');
+
+            let password = document.getElementById('password');
+            let password_confirm = document.getElementById('password-confirm');
+            if(password.value !== password_confirm.value){
+                document.getElementById('uptButton').setAttribute('disabled', true);
+                if(password_confirm.parentNode.children.length === 1){
+                    password.style = 'border: 2px solid #e01a16';
+                    password_confirm.style = 'border: 2px solid #e01a16';
+                    let errorMsg = document.createElement('span');
+                    errorMsg.id = 'errorMsg';          
+                    errorMsg.style = 'color: #e01a16; font-size: 12px;'              
+                    errorMsg.innerHTML = 'Passwords do not match.';
+                    password_confirm.parentNode.insertBefore(errorMsg, password_confirm.nextSibling);
+                }
+            }
+            else{
+                password.style = 'border: 1px solid #ced4da;';
+                password_confirm.style = 'border: 1px solid #ced4da;';
+                let errorMsg = password_confirm.nextElementSibling;
+                if(errorMsg) errorMsg.remove();
+                else return;
+            }
+        }
+    }">
     <div class="col-md-8">
         <div class="card">
             <h1 class="display-4 text-center">EDIT | <%= user.name %> </h1>
 
-            <div class="card-body">                
+            <div class="card-body">
                 <form id="form">
                     <div class="form-group">
-                        <label for="fname">Name</label>
-                        <input type="text" name="name" id="name" value="<%= user.name %>" class="form-control" required>                                
+                        <label for="name">Name</label>
+                        <div>
+                            <input x-model="name" @keyup.debounce.300="validate('name')"
+                                @keydown.debounce.300="validate('name')" type="text" name="name" id="name"
+                                class="form-control" required>
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="lname">E-mail</label>
-                        <input type="text" name="email" id="email" value="<%= user.email %>" class="form-control" required>
+                        <label for="email">E-mail</label>
+                        <div>
+                            <input x-model="email" @keyup.debounce.300="validate('email')"
+                                @keydown.debounce.300="validate('email')" type="text" name="email" id="email"
+                                class="form-control" required>
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input id="password" type="password" class="form-control" name="password" required autocomplete="new-password">                          
+                        <div>
+                            <input x-model="password" @keyup.debounce.0="passwordMatch"
+                                @keydown.debounce.0="passwordMatch" id="password" type="password" class="form-control"
+                                name="password" required autocomplete="new-password">
+                        </div>
                     </div>
 
                     <div class="form-group mb-5">
                         <label for="password-confirm">Confirm Password</label>
-                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                        <div>
+                            <input x-model="password_confirm" @keyup.debounce.0="passwordMatch"
+                                @keydown.debounce.0="passwordMatch" id="password-confirm" type="password"
+                                class="form-control" name="password_confirmation" required autocomplete="new-password">
+                        </div>
                     </div>
 
                     <div class="d-flex justify-content-between">
-                        <a href="/users/show" class="btn btn-secondary btn-lg">Go back</a>
-                        
-                        <button @click.prevent="update" type="submit" class="btn btn-primary btn-lg">Update</button>
-                    </div>
-                </form>
+                        <div>
+                            <a href="/users/show" class="btn btn-secondary btn-lg">Go back</a>
+                        </div>
 
+                        <div class="d-flex flex-column">
+                            <button
+                                x-bind:disabled="name === '' || email === '' || password === '' || password_confirm === ''"
+                                @click.prevent="update" type="submit" class="btn btn-primary btn-lg"
+                                id="uptButton">Update</button>
+
+                            <span
+                                x-bind:class="{ 'd-none': name !== '' && email !== '' && password !== '' && password_confirm !== '' }"
+                                style="color: #e01a16; font-size: 12px">Some of input fields have errors.</span>
+                        </div>
+                    </div>
             </div>
+            </form>
+
         </div>
     </div>
+</div>
 </div>
 <%- include('../layouts/footer'); -%>

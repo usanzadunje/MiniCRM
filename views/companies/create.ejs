@@ -1,6 +1,10 @@
 <%- include('../layouts/header', {title: 'Index Users'}); -%>
 <div class="row justify-content-center">
     <div class="col-md-8" x-data="{
+            name: '',
+            email: '',
+            website: '', 
+
             create() {      
                 const formData = new FormData(document.getElementById('form'));
 
@@ -17,13 +21,37 @@
                 });
             },
 
+            preview(ev) {     
+                let logo = document.getElementById('image_preview');
+                
+                var reader = new FileReader();
+
+                const file = ev.target.files[0];
+
+                reader.onload = function (e) {
+                    logo.src = e.target.result;
+                }
+
+                reader.readAsDataURL(file);
+            },
+
             validate(id) {
                 let element = document.getElementById(id);
                 if(element.value === ''){
-                    console.log('empty');
+                    if(element.parentNode.children.length === 1){
+                        element.style = 'border: 2px solid #e01a16';
+                        let errorMsg = document.createElement('p');
+                        errorMsg.id = 'errorMsg';          
+                        errorMsg.style = 'color: #e01a16; font-size: 12px'              
+                        errorMsg.innerHTML = element.id.charAt(0).toUpperCase() + element.id.slice(1) + ' is required.';
+                        element.parentNode.insertBefore(errorMsg, element.nextSibling);
+                    }
                 }
                 else{
-                    console.log('not empty');
+                    element.style = 'border: 1px solid #ced4da;';
+                    let errorMsg = element.nextElementSibling;
+                    if(errorMsg) errorMsg.remove();
+                    else return;
                 }
             }
         }">
@@ -34,33 +62,56 @@
                 <form enctype="multipart/form-data" id="form">
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" name="name" id="name" placeholder="Company name" class="form-control"
-                            required>
+                        <div>
+                            <input x-model="name" @keyup.debounce.300="validate('name')"
+                                @keydown.debounce.300="validate('name')" type="text" name="name" id="name"
+                                placeholder="Company name" class="form-control" required>
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" name="email" id="email" placeholder="Company e-mail" class="form-control"
-                            required>
+                        <div>
+                            <input x-model="email" @keyup.debounce.300="validate('email')"
+                                @keydown.debounce.300="validate('email')" type="email" name="email" id="email"
+                                placeholder="Company e-mail" class="form-control" required>
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <label for="website">Website</label>
-                        <input type="website" name="website" id="website" placeholder="Company website"
-                            class="form-control" required>
+                        <div>
+                            <input x-model="website" @keyup.debounce.300="validate('website')"
+                                @keydown.debounce.300="validate('website')" type="website" name="website" id="website"
+                                placeholder="Company website" class="form-control" required>
+                        </div>
                     </div>
 
-                    <div class="form-group mb-5">
-                        <label for="logo">Logo</label>
-                        <input type="file" id="photo" name="photo" class="form-control-file">
+                    <div class="form-group mb-5 d-flex justify-content-center">
+                        <div class="flex-column mt-5">
+                            <label for="logo">Logo</label>
+                            <input type="file" id="photo" name="photo" class="form-control-file" @change="preview">
+                        </div>
+
+                        <img src="/images/noimage.jpg" alt="Placeholder image" id="image_preview"
+                            class="border border-dark mt-1">
                     </div>
+
+
+
                     <div class="d-flex justify-content-between">
-                        <a href="/home" class="btn btn-secondary btn-lg">Go back</a>
+                        <div>
+                            <a href="/home" class="btn btn-secondary btn-lg">Go back</a>
+                        </div>
 
-                        <button @click.prevent="create" type="submit" class="btn btn-primary btn-lg">Create</button>
+                        <div class="d-flex flex-column">
+                            <button x-bind:disabled="name === '' || email === '' || website === ''"
+                                @click.prevent="create" type="submit" class="btn btn-primary btn-lg">Create</button>
+
+                            <span x-bind:class="{ 'd-none': name !== '' && email !== '' && website !== '' }"
+                                style="color: #e01a16; font-size: 12px">Some of input fields have errors.</span>
+                        </div>
                     </div>
-                    <button @click.prevent="validate('name')" type="submit"
-                        class="btn btn-primary btn-lg">Create</button>
                 </form>
             </div>
         </div>

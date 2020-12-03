@@ -1,5 +1,56 @@
 <%- include('../layouts/header', {title: 'Index Users'}); -%>
-<div class="row justify-content-center">
+<div class="row justify-content-center" ] x-data="{
+        name: '',
+        email: '',
+        password: '', 
+        password_confirm: '',
+
+        validate(id) {
+            let element = document.getElementById(id);
+            if(element.value === ''){
+                if(element.parentNode.children.length === 1){
+                    element.style = 'border: 2px solid #e01a16';
+                    let errorMsg = document.createElement('p');
+                    errorMsg.id = 'errorMsg';          
+                    errorMsg.style = 'color: #e01a16; font-size: 12px; margin-bottom: 0px'              
+                    errorMsg.innerHTML = element.id.charAt(0).toUpperCase() + element.id.slice(1) + ' is required.';
+                    element.parentNode.insertBefore(errorMsg, element.nextSibling);
+                }
+            }
+            else{
+                element.style = 'border: 1px solid #ced4da;';
+                let errorMsg = element.nextElementSibling;
+                if(errorMsg) errorMsg.remove();
+                else return;
+            }
+        },
+
+        passwordMatch() {
+            this.validate('password');
+            this.validate('password-confirm');
+            let password = document.getElementById('password');
+            let password_confirm = document.getElementById('password-confirm');
+            if(password.value !== password_confirm.value){
+                document.getElementById('regButton').setAttribute('disabled', true);
+                if(password_confirm.parentNode.children.length === 1){
+                    password.style = 'border: 2px solid #e01a16';
+                    password_confirm.style = 'border: 2px solid #e01a16';
+                    let errorMsg = document.createElement('span');
+                    errorMsg.id = 'errorMsg';          
+                    errorMsg.style = 'color: #e01a16; font-size: 12px;'              
+                    errorMsg.innerHTML = 'Passwords do not match.';
+                    password_confirm.parentNode.insertBefore(errorMsg, password_confirm.nextSibling);
+                }
+            }
+            else{
+                password.style = 'border: 1px solid #ced4da;';
+                password_confirm.style = 'border: 1px solid #ced4da;';
+                let errorMsg = password_confirm.nextElementSibling;
+                if(errorMsg) errorMsg.remove();
+                else return;
+            }
+        }
+    }">
     <div class="col-md-8">
         <div class="card">
             <div class="card-header">Register</div>
@@ -11,7 +62,10 @@
                         <label for="name" class="col-md-4 col-form-label text-md-right">Name</label>
 
                         <div class="col-md-6">
-                            <input id="name" type="text" class="form-control" name="name" value="<%= flash.name ? flash.name : '' %>" required autocomplete="name" autofocus>
+                            <input x-model="name" @keyup.debounce.300="validate('name')"
+                                @keydown.debounce.300="validate('name')" id="name" type="text" class="form-control"
+                                name="name" value="<%= flash.name ? flash.name : '' %>" required autocomplete="name"
+                                autofocus>
                         </div>
                     </div>
 
@@ -19,7 +73,10 @@
                         <label for="email" class="col-md-4 col-form-label text-md-right">E-mail Address</label>
 
                         <div class="col-md-6">
-                            <input id="email" type="email" class="form-control" name="email" value="<%= flash.email ? flash.email : '' %>" required autocomplete="email">
+                            <input x-model="email" @keyup.debounce.300="validate('email')"
+                                @keydown.debounce.300="validate('email')" id="email" type="email" class="form-control"
+                                name="email" value="<%= flash.email ? flash.email : '' %>" required
+                                autocomplete="email">
                         </div>
                     </div>
 
@@ -27,23 +84,35 @@
                         <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
 
                         <div class="col-md-6">
-                            <input id="password" type="password" class="form-control" name="password" required autocomplete="new-password">                          
+                            <input x-model="password" @keyup.debounce.0="passwordMatch"
+                                @keydown.debounce.0="passwordMatch" id="password" type="password" class="form-control"
+                                name="password" required autocomplete="new-password">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Confirm Password</label>
+                        <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Confirm
+                            Password</label>
 
                         <div class="col-md-6">
-                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                            <input x-model="password_confirm" @keyup.debounce.0="passwordMatch"
+                                @keydown.debounce.0="passwordMatch" id="password-confirm" type="password"
+                                class="form-control" name="password_confirmation" required autocomplete="new-password">
                         </div>
                     </div>
 
                     <div class="form-group row mb-0">
                         <div class="col-md-6 offset-md-4">
-                            <button type="submit" class="btn btn-primary">
+                            <button
+                                x-bind:disabled="name === '' || email === '' || password === '' || password_confirm === ''"
+                                type="submit" id="regButton" class="btn btn-primary">
                                 Register
                             </button>
+                            <span
+                                x-bind:class="{ 'd-none': name !== '' && email !== '' && password !== '' && password_confirm !== '' }"
+                                style="color: #e01a16; font-size: 12px; display: block; margin-top: 5px;">Some of
+                                input fields have
+                                errors.</span>
                         </div>
                     </div>
                 </form>
