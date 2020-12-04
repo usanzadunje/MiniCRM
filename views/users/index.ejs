@@ -1,0 +1,73 @@
+<%- include('../layouts/header', {title: 'Application Users'}); -%>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <h1 class="display-4 text-center">Application users</h1>
+            <div class="card-body">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">E-mail</th>
+                            <th scope="col">E-mail verified at</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <% if (users.length > 0) { %>
+                    <tbody>
+                        <% users.forEach(u => { %>
+                        <tr>
+                            <th scope="row"><%= ++i %> </th>
+                            <td>
+                                <%= u.name %>
+                            </td>
+                            <td><%= u.email %></td>
+                            <td>
+                                <% if (u.email_verified_at) { %>
+                                <%= u.email_verified_at.toString().slice(0,24) %>
+                                <% } else { %>
+                                <div>
+                                    E-mail not verified
+                                </div>
+                                <form action="/users/verify-email/<%= u.id %>" method="POST">
+                                    <button type="submit" class="text-primary"
+                                        style="border: none; background-color: #fff; cursor: pointer">
+                                        Verify manually
+                                    </button>
+                                </form>
+                                <% } %>
+                            </td>
+                            <td class="text-center">
+                                <form action="/users/make-admin/<%= u.id %>" method="POST">
+                                    <% if (u.role === 'admin') { %>
+                                    <button type="submit" class="btn btn-danger">
+                                        Revoke admin
+                                    </button>
+                                    <% } else { %>
+                                    <button type="submit" class="btn btn-primary">
+                                        Grant admin
+                                    </button>
+                                    <% } %>
+                                    <input type="hidden" name="role" value="<%= u.role %>">
+                                </form>
+                            </td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                    <% } else { %>
+                    <tbody>
+                        <tr>
+                            <td colspan="4">
+                                <h3 class="display-4" style="font-size: 25px;">There is nobody using our app at the
+                                    moment..</h3>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <% } %>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../layouts/footer'); -%>
