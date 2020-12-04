@@ -1,4 +1,4 @@
-<%- include('../layouts/header', {title: 'Index Users'}); -%>
+<%- include('../layouts/header', {title: 'Login'}); -%>
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div class="card">
@@ -11,7 +11,8 @@
                         <label for="email" class="col-md-4 col-form-label text-md-right">E-mail Address</label>
 
                         <div class="col-md-6">
-                            <input id="email" type="email" class="form-control" name="email" value="<%= flash.email ? flash.email : '' %>" required autocomplete="email" autofocus>
+                            <input id="email" type="email" class="form-control" name="email"
+                                value="<%= flash.email ? flash.email : '' %>" required autocomplete="email" autofocus>
                         </div>
                     </div>
 
@@ -19,7 +20,8 @@
                         <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
 
                         <div class="col-md-6">
-                            <input id="password" type="password" class="form-control" name="password" required autocomplete="current-password">
+                            <input id="password" type="password" class="form-control" name="password" required
+                                autocomplete="current-password">
                         </div>
                     </div>
 
@@ -30,13 +32,14 @@
                                 Login
                             </button>
 
-                            <div class="ui facebook button">
-                                <i class="facebook icon"></i>
-                                <a href="/auth/facebook" style="color: white;">Login with Facebook</a>
+                            <div class="btn btn-primary">
+                                <i class="fa fa-facebook mr-2"></i>
+                                <a href="/auth/facebook" style="color: #fff; text-decoration: none;">Login with
+                                    Facebook</a>
                             </div>
                         </div>
                     </div>
-                    
+
                 </form>
             </div>
         </div>

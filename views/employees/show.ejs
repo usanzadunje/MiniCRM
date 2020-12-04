@@ -1,6 +1,5 @@
-<%- include('../layouts/header', {title: 'Index Users'}); -%>
-<div class="row justify-content-center"
-    x-data="{
+<%- include('../layouts/header', {title: 'Employee: ' + employee.fname + ' ' + employee.lname }); -%>
+<div class="row justify-content-center" x-data="{
         id: '',
 
         remove() {
@@ -19,8 +18,7 @@
                 if(err) throw err;
             });
         },
-    }"
->
+    }">
     <div class="col-md-8">
         <div class="card">
             <h1 class="display-4 text-center">EDIT | <%= employee.fname + ' ' + employee.lname %></h1>
@@ -28,77 +26,85 @@
             <div class="card-body">
                 <table class="table">
                     <thead class="thead-dark">
-                    <tr>
-                        <th></th>
-                        <th scope="col">First name</th>
-                        <th>
-                            <%= employee.fname %>
-                        </th>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th></th>
-                        <th scope="col">Last name</th>
-                        <th>
-                            <%= employee.lname %>
-                        </th>
-                        <th></th>
-                    </tr>
-                    <tr>
-                        <th></th>
-                        <th scope="col">E-mail</th>
-                        <th>
-                            <%= employee.email %>
-                        </th>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th></th>
-                        <th scope="col">Phone number</th>
-                        <th>
-                            <%= employee.phone %>
-                        </th>
-                        <th></th>
-                    </tr>
-                    <tr>
-                        <th></th>
-                        <th><a href="/employees/<%= employee.company_id %> " class="btn btn-secondary">Go back</a></th>
-                        <th>
-                            <a href="/employees/edit/<%= employee.id %>" class="btn btn-primary">Edit</a>
-                            <button @click="id = <%= employee.id %>" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
-                                Delete
-                            </button>
-                            <!-- Modal -->
-                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                      <h5 class="modal-title" id="exampleModalLabel">Deleting...</h5>
-                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                      </button>
+                        <tr>
+                            <th></th>
+                            <th scope="col">First name</th>
+                            <th>
+                                <%= employee.fname %>
+                            </th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th scope="col">Last name</th>
+                            <th>
+                                <%= employee.lname %>
+                            </th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th scope="col">E-mail</th>
+                            <th>
+                                <%= employee.email %>
+                            </th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th scope="col">Phone number</th>
+                            <th>
+                                <%= employee.phone %>
+                            </th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th><a href="/employees/<%= employee.company_id %> " class="btn btn-secondary">Go back</a>
+                            </th>
+                            <th>
+                                <% if (user.role === 'admin') { %>
+                                <a href="/employees/edit/<%= employee.id %>" class="btn btn-primary">Edit</a>
+                                <button @click="id = <%= employee.id %>" type="button" class="btn btn-danger"
+                                    data-toggle="modal" data-target="#exampleModal">
+                                    Delete
+                                </button>
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Deleting...</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Do you really want to proceed with deleting employee?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Cancel</button>
+                                                <button @click.prevent="remove" type="button"
+                                                    class="btn btn-primary">Proceed</button>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="modal-body">
-                                      Do you really want to proceed with deleting employee?
-                                    </div>
-                                    <div class="modal-footer">
-                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                      <button @click.prevent="remove" type="button" class="btn btn-primary">Proceed</button>
-                                    </div>
-                                  </div>
                                 </div>
-                            </div>
-                            <!-- End Modal -->
-                        </th>
-                        <td></td>                        
-                    </tr>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th>                            
-                        </th>
-                        <td></td>
-                    </tr>
+                                <!-- End Modal -->
+                                <% } %>
+                            </th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th>
+                            </th>
+                            <td></td>
+                        </tr>
                     </thead>
                 </table>
             </div>

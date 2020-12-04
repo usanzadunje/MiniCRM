@@ -1,4 +1,4 @@
-<%- include('../layouts/header', {title: 'Index Users'}); -%>
+<%- include('../layouts/header', {title: 'Edit Employee'}); -%>
 <div class="row justify-content-center" x-data="{
         fname: '<%= employee.fname %> ',
         lname: '<%= employee.lname %> ',
@@ -94,8 +94,9 @@
                                 @click.prevent="update" type="submit" class="btn btn-primary btn-lg">Update</button>
 
                             <span
-                                x-bind:class="{ 'd-none': fname !== '' && lname !== '' && email !== '' && website !== '' }"
+                                x-bind:class="{ 'd-none': fname !== '' && lname !== '' && email !== '' && phone !== '' }"
                                 style="color: #e01a16; font-size: 12px">Some of input fields have errors.</span>
+
                         </div>
                     </div>
                 </form>

@@ -6,6 +6,7 @@ var EmailVerificationController = require('../controllers/EmailVerificationContr
 var auth = require('../middlewares/auth')
 var verified = require('../middlewares/verified')
 var passport = require("passport")
+var admin = require('../middlewares/admin');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {

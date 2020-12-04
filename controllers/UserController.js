@@ -3,6 +3,53 @@ const bcrypt = require('bcrypt');
 
 module.exports = {
 
+    makeAdmin: function (req, res, next) {
+        let role = 'regular';
+        if (req.body.role === 'regular') role = 'admin';
+        let query = `UPDATE users
+                     SET role = '${role}'
+                     WHERE id = ${req.params.id}`;
+
+        conn.query(query, (err, result) => {
+            if (err) throw err;
+
+            req.flash('success', 'You successfully granted admin permissions to user..')
+            res.redirect('/users');
+
+        });
+    },
+
+    manualEmailVerification: function (req, res, next) {
+        let today = new Date(Date.now());
+        let now = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()} ${today.getHours()}-${today.getMinutes()}-${today.getSeconds()}`
+        let query = `UPDATE users
+                     SET email_verified_at = '${now}'
+                     WHERE id = ${req.params.id}`;
+
+        conn.query(query, (err, result) => {
+            if (err) throw err;
+
+            req.flash('success', 'You successfully verified e-mail to user..')
+            res.redirect('/users');
+
+        });
+    },
+
+    index: function (req, res, next) {
+        let query = `SELECT id, name, email, email_verified_at, role FROM users WHERE id != ${parseInt(req.session.user.id)}`;
+        let i = 0;
+
+        conn.query(query, (err, result) => {
+            if (err) throw err;
+
+            return res.render('users/index', {
+                users: result,
+                i
+            });
+
+        });
+    },
+
     show: function (req, res, next) {
         return res.render('users/show');
     },
@@ -20,7 +67,7 @@ module.exports = {
                         WHERE id = ${res.locals.user.id}`;
             conn.query(query, (err, result) => {
                 if (err) throw err;
-                let query = `SELECT * FROM users WHERE id = ${res.locals.user.id}`;
+                let query = `SELECT id, name, email, provider, email_verified_at, role FROM users WHERE id = ${res.locals.user.id}`;
 
                 conn.query(query, (err, user) => {
                     if (err) throw err;

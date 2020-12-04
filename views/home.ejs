@@ -1,7 +1,6 @@
 <%- include('layouts/header', {title: 'Home page'}); -%>
 
-<div class="row justify-content-center"
-    x-data="{
+<div class="row justify-content-center" x-data="{
         id: '',
 
         remove() {
@@ -20,8 +19,7 @@
         showModal() {
             this.modalShow = true;
         }
-    }"
->
+    }">
     <div class="col-md-8">
         <div class="card">
             <h1 class="display-4 text-center">Companies</h1>
@@ -29,50 +27,62 @@
             <div class="card-body">
                 <table class="table">
                     <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Logo</th>
-                        <th scope="col">Company Name</th>
-                        <th scope="col"></th>
-                        <th scope="col" class="text-center"><a href="/companies/create" class="btn btn-success">Add company</a></th>
-                    </tr>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Logo</th>
+                            <th scope="col">Company Name</th>
+                            <th scope="col"></th>
+                            <% if (user.role === 'admin') { %>
+                            <th scope="col" class="text-center"><a href="/companies/create" class="btn btn-success">Add
+                                    company</a></th>
+                            <% } %>
+                        </tr>
                     </thead>
                     <tbody>
-                    <% companies.forEach(company => { %>
+                        <% companies.forEach(company => { %>
                         <tr>
                             <td class="align-middle"><%= ++i %> </td>
-                            <td scope="row"><a href="//<%= company.website %>" target="_blank"><img src="<%= 'images/' + company.logo %>"  width="100px" height="100px"></a></td>
+                            <td scope="row"><a href="//<%= company.website %>" target="_blank"><img
+                                        src="<%= 'images/' + company.logo %>" width="100px" height="100px"></a></td>
                             <td class="align-middle"><a href="/employees/<%= company.id %>"><%= company.name %></a></td>
-                            <td class="text-center align-middle"><a href="/companies/edit/<%= company.id %>" class="btn btn-primary">Update</a></td>
+                            <% if (user.role === 'admin') { %>
+                            <td class="text-center align-middle"><a href="/companies/edit/<%= company.id %>"
+                                    class="btn btn-primary">Update</a></td>
                             <td class="text-center align-middle">
-                                <button @click="id = <%= company.id %>" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                                <button @click="id = <%= company.id %>" type="button" class="btn btn-danger"
+                                    data-toggle="modal" data-target="#exampleModal">
                                     Delete
                                 </button>
-                                  
-                                  <!-- Modal -->
-                                  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
-                                      <div class="modal-content">
-                                        <div class="modal-header">
-                                          <h5 class="modal-title" id="exampleModalLabel">Deleting... </h5>
-                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                          </button>
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Deleting... </h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Do you really want to proceed with deleting company?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Cancel</button>
+                                                <button @click.prevent="remove" type="button"
+                                                    class="btn btn-primary">Proceed</button>
+                                            </div>
                                         </div>
-                                        <div class="modal-body">
-                                          Do you really want to proceed with deleting company?
-                                        </div>
-                                        <div class="modal-footer">
-                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                          <button @click.prevent="remove" type="button" class="btn btn-primary">Proceed</button>
-                                        </div>
-                                      </div>
                                     </div>
-                                  </div>
-                                  <!-- End Modal -->
+                                </div>
+                                <!-- End Modal -->
                             </td>
+                            <% } %>
                         </tr>
-                    <% }) %>
+                        <% }) %>
                     </tbody>
                 </table>
             </div>

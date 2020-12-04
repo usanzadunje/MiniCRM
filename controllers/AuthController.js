@@ -27,7 +27,8 @@ module.exports = {
                             id: result[0].id,
                             name: result[0].name,
                             email: result[0].email,
-                            email_verified_at: result[0].email_verified_at
+                            email_verified_at: result[0].email_verified_at,
+                            role: result[0].role
                         }
                         req.flash('success', 'You have been logged in successfully!');
                         res.redirect('/home');
@@ -56,7 +57,7 @@ module.exports = {
                 conn.query(query, req.body.email, (err, emailExists) => {
                     if (err) throw err;
                     if (emailExists.length === 0) {
-                        let query = `INSERT INTO users(name, email, password) VALUES('${req.body.name}', '${req.body.email}', '${bcrypt.hashSync(req.body.password, 10)}')`;
+                        let query = `INSERT INTO users(name, email, password, role) VALUES('${req.body.name}', '${req.body.email}', '${bcrypt.hashSync(req.body.password, 10)}', '${role}')`;
                         conn.query(query, (err, result) => {
                             if (err) throw err;
                             console.log(`User added. ID: ${result.insertId}`);
@@ -100,8 +101,9 @@ module.exports = {
                 res.redirect('/login');
             }
             else if (emailExists.length === 0) {
-                let date = Date.now();
-                let query = `INSERT INTO users(name, email, password, provider, email_verified_at) VALUES('${name}', '${email}', '${bcrypt.hashSync(password, 10)}', 'facebook', ${date})`;
+                let today = new Date(Date.now());
+                let now = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()} ${today.getHours()}-${today.getMinutes()}-${today.getSeconds()}`
+                let query = `INSERT INTO users(name, email, password, provider, email_verified_at, role) VALUES('${name}', '${email}', '${bcrypt.hashSync(password, 10)}', 'facebook', ${now}, 'regular')`;
                 conn.query(query, (err, result) => {
                     if (err) throw err;
                     console.log(`User added. ID: ${result.insertId}`);
@@ -126,7 +128,8 @@ module.exports = {
                         name: result[0].name,
                         email: result[0].email,
                         provider: 'facebook',
-                        email_verified_at: result[0].email_verified_at
+                        email_verified_at: result[0].email_verified_at,
+                        role: result[0].role
                     }
                     delete req.session['passport'];
                     req.flash('success', 'You successfully logged in via Facebook..');
