@@ -57,7 +57,7 @@ module.exports = {
                 conn.query(query, req.body.email, (err, emailExists) => {
                     if (err) throw err;
                     if (emailExists.length === 0) {
-                        let query = `INSERT INTO users(name, email, password, role) VALUES('${req.body.name}', '${req.body.email}', '${bcrypt.hashSync(req.body.password, 10)}', '${role}')`;
+                        let query = `INSERT INTO users(name, email, password, role) VALUES('${req.body.name}', '${req.body.email}', '${bcrypt.hashSync(req.body.password, 10)}', 'regular')`;
                         conn.query(query, (err, result) => {
                             if (err) throw err;
                             console.log(`User added. ID: ${result.insertId}`);
@@ -103,7 +103,7 @@ module.exports = {
             else if (emailExists.length === 0) {
                 let today = new Date(Date.now());
                 let now = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()} ${today.getHours()}-${today.getMinutes()}-${today.getSeconds()}`
-                let query = `INSERT INTO users(name, email, password, provider, email_verified_at, role) VALUES('${name}', '${email}', '${bcrypt.hashSync(password, 10)}', 'facebook', ${now}, 'regular')`;
+                let query = `INSERT INTO users(name, email, password, provider, email_verified_at, role) VALUES('${name}', '${email}', '${bcrypt.hashSync(password, 10)}', 'facebook', '${now}', 'regular')`;
                 conn.query(query, (err, result) => {
                     if (err) throw err;
                     console.log(`User added. ID: ${result.insertId}`);
@@ -112,7 +112,8 @@ module.exports = {
                         name: name,
                         email: email,
                         provider: 'facebook',
-                        email_verified_at: date
+                        email_verified_at: date,
+                        role: 'regular'
                     }
                     delete req.session['passport'];
                     req.flash('success', 'You successfully logged in via Facebook..');

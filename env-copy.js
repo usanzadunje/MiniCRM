@@ -2,15 +2,22 @@
 
 module.exports = {
     mysql: {
-        host: '',
-        user: '',
-        password: '',
-        database: '',
-        port: 
+        host: 'YOUR DATABASE HOST',
+        user: 'YOUR DATABASE USERNAME',
+        password: 'YOUR DATABASE PASSWORD',
+        database: 'YOUR DATABASE NAME',
+        port: //DATABASE PORT
     },
 
     email: {
-        user: '',
-        pass: ''
+        user: 'YOUR GMAIL EMAIL',
+        pass: 'YOUR GMAIL PASSWORD'
+    },
+
+    passportFacebook: {
+        clientID: "",
+        clientSecret: "",
+        callbackURL: "",
+        profileFields: []
     }
 }

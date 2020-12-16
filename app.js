@@ -8,6 +8,7 @@ var flash = require('connect-flash');
 var passport = require("passport")
 var FacebookStrategy = require("passport-facebook").Strategy
 const fileUpload = require('express-fileupload');
+const env = require('../MiniCRM/env');
 
 //Routes
 var indexRouter = require('./routes/index');
@@ -33,24 +34,24 @@ app.use(session({
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(flash());
 //Da mi budu uvek dostupne poruke od flash
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.locals.flash = req.flash();
   next();
 });
-app.use(function(req, res, next) {
-  if(req.session['user']){
+app.use(function (req, res, next) {
+  if (req.session['user']) {
     res.locals.user = req.session['user'];
   }
-  else{
-    res.locals.user  = null;
+  else {
+    res.locals.user = null;
   }
   next();
 });
-app.use(function(req, res, next) {
-  if(req.params){
+app.use(function (req, res, next) {
+  if (req.params) {
     next();
   }
-  else{
+  else {
     res.redirect('back');
   }
 });
@@ -60,21 +61,16 @@ app.use(fileUpload())
 //Passport registracija
 app.use(passport.initialize());
 app.use(passport.session());
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
   done(null, user)
 })
-passport.deserializeUser(function(user, done) {
+passport.deserializeUser(function (user, done) {
   done(null, user)
 })
 passport.use(
   new FacebookStrategy(
-    {
-      clientID: "3524778844207513",
-      clientSecret: "cc3bd5feb33de53a0e0cfa56254bd753",
-      callbackURL: "http://localhost:8000/auth/facebook/callback",
-      profileFields: ['id', 'emails', 'displayName']
-    },
-    function(accessToken, refreshToken, profile, cb) {
+    env.passportFacebook,
+    function (accessToken, refreshToken, profile, cb) {
       return cb(null, profile)
     }
   )
@@ -87,12 +83,12 @@ app.use('/companies', companyRouter);
 app.use('/employees', employeeRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
