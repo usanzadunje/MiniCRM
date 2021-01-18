@@ -11,9 +11,9 @@ Menadzer komapnija i zaposlenih
 5. Izvrsite sledecu komandu <strong>cp env-copy.js env.js</strong>
 6. Otvorite novonastali fajl env.js pomocu bilo kog text editora (komanda <strong>notepad env.js</strong> otvara u Notepad-u)
 7. Popunite sva odgovarajuca polja vrednostima koja se zahtevaju vasim vrednostima.
-8. Nakon toga potrebno je instalirati sve dependency-je komandom <storng>npm install</strong>
+8. Nakon toga potrebno je instalirati sve dependency-je komandom <strong>npm install</strong>
 9. Pokretanje aplikacije mozete izvrsiti komandom <strong>npm run start</strong>
-10. Aplikaciju mozete videti na linku : 127.0.0.1:8000
+10. Aplikaciju mozete videti na linku : <a href="127.0.0.1:8000">linku</a>
 
 Za testiranje aplikacije mozete koristiti 2 naloga koja su vec na raspolaganju:
 1. admin@admin.com | 123
