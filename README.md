@@ -13,4 +13,10 @@ Menadzer komapnija i zaposlenih
 7. Popunite sva odgovarajuca polja vrednostima koja se zahtevaju vasim vrednostima.
 8. Nakon toga potrebno je instalirati sve dependency-je komandom <storng>npm install</strong>
 9. Pokretanje aplikacije mozete izvrsiti komandom <strong>npm run start</strong>
-10. Aplikaciju mozete videti na linku : <a href="127.0.0.1:8000">127.0.0.1:8000</a>
+10. Aplikaciju mozete videti na linku : 127.0.0.1:8000
+
+Za testiranje aplikacije mozete koristiti 2 naloga koja su vec na raspolaganju:
+1. admin@admin.com | 123
+2. regular@regular.com | 123
+
+Svaki novokreirani nalog ce zahtevati verifikaciju e-mail adrese tako da je potrebno uneti postojecu e-mail adresu.
