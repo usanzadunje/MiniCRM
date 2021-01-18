@@ -22,5 +22,7 @@ Za testiranje aplikacije mozete koristiti 2 naloga koja su vec na raspolaganju:
 Svaki novokreirani nalog ce zahtevati verifikaciju e-mail adrese tako da je potrebno uneti postojecu e-mail adresu. (Sem onih koji se loguju preko Facebook-a)
 
 ```diff
-! Ukoliko verifikacija mail-a ne radi znaci da je neispravan nalog sa koga se salje mail, mozete koristiti moj koji sam postavio u fajlu gde se nalazi link do git repozitorijuma na DropBox-u
+! Ukoliko verifikacija mail-a ne radi znaci da je neispravan nalog sa koga se salje mail, mozete koristiti moj koji sam postavio u fajlu gde se nalazi link do git repozitorijuma na DropBox-u.
+
+! Takodje sam postavio i podesavanja za Facebook Passport ukoliko ne posedujete nalog za to.
 ```
