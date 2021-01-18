@@ -19,9 +19,8 @@ Za testiranje aplikacije mozete koristiti 2 naloga koja su vec na raspolaganju:
 1. admin@admin.com | 123
 2. regular@regular.com | 123
 
-Svaki novokreirani nalog ce zahtevati verifikaciju e-mail adrese tako da je potrebno uneti postojecu e-mail adresu.
+Svaki novokreirani nalog ce zahtevati verifikaciju e-mail adrese tako da je potrebno uneti postojecu e-mail adresu. (Sem onih koji se loguju preko Facebook-a)
 
 ```diff
 ! Ukoliko verifikacija mail-a ne radi znaci da je neispravan nalog sa koga se salje mail, mozete koristiti moj koji sam postavio u fajlu gde se nalazi link do git repozitorijuma na DropBox-u
 ```
-! 
