@@ -112,7 +112,7 @@ module.exports = {
                         name: name,
                         email: email,
                         provider: 'facebook',
-                        email_verified_at: date,
+                        email_verified_at: today,
                         role: 'regular'
                     }
                     delete req.session['passport'];
